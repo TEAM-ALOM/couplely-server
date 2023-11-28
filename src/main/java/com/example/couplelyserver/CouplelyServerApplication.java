@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class CouplelyServerApplication {
     //test
     public static void main(String[] args) {
+
         SpringApplication.run(CouplelyServerApplication.class, args);
     }
 

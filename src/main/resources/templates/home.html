@@ -1,0 +1,78 @@
+<html lang="ko">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title th:text="|${pageName}|"></title>
+</head>
+<body>
+<div>
+  <h1><a th:href="|/${loginType}|">[[${pageName}]]</a></h1> <hr/>
+  <div th:if="${nickname == null}">
+    <h3>로그인 되어있지 않습니다!</h3>
+    <button th:onclick="|location.href='@{/{loginType}/join (loginType=${loginType})}'|">회원 가입</button> <br/><br/>
+    <button th:onclick="|location.href='@{/{loginType}/login (loginType=${loginType})}'|">로그인</button>
+  </div>
+  <div th:unless="${nickname == null}">
+    <h3>[[${nickname}]]님 환영합니다!</h3>
+    <button th:onclick="|location.href='@{/{loginType}/info (loginType=${loginType})}'|">유저 정보</button> <br/><br/>
+    <button th:onclick="|location.href='@{/{loginType}/admin (loginType=${loginType})}'|">관리자 페이지</button> <br/><br/>
+    <button th:onclick="|location.href='@{/{loginType}/logout (loginType=${loginType})}'|">로그아웃</button>
+  </div>
+</div>
+</body>
+</html>
+HTML
+3.8.2. join.html
+loginId, password, nickname을 입력받음
+th:object로 joinRequest와 연결하여 사용
+validation을 통한 Field Error 출력을 위해 th:errorclass, th:error 사용
+<!DOCTYPE html>
+<html lang="ko">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title th:text="|${pageName}|"></title>
+</head>
+<body>
+<div>
+  <h1><a th:href="|/${loginType}|">[[${pageName}]]</a></h1> <hr/>
+  <h2>회원 가입</h2>
+  <form th:method="post" th:action="|@{/{loginType}/join (loginType=${loginType})}|" th:object="${joinRequest}">
+    <div>
+      <label th:for="loginId">로그인 아이디 : </label>
+      <input type="text" th:field="*{loginId}" th:errorclass="error-input"/>
+      <div class="error-class" th:errors="*{loginId}"></div>
+    </div>
+    <br/>
+    <div>
+      <label th:for="password">비밀번호 : </label>
+      <input type="password" th:field="*{password}" th:errorclass="error-input"/>
+      <div class="error-class" th:errors="*{password}"></div>
+    </div>
+    <br/>
+    <div>
+      <label th:for="passwordCheck">비밀번호 체크 : </label>
+      <input type="password" th:field="*{passwordCheck}" th:errorclass="error-input"/>
+      <div class="error-class" th:errors="*{passwordCheck}"></div>
+    </div>
+    <br/>
+    <div>
+      <label th:for="nickname">닉네임 : </label>
+      <input type="text" th:field="*{nickname}" th:errorclass="error-input"/>
+      <div class="error-class" th:errors="*{nickname}"></div>
+    </div>
+    <br/>
+    <button type="submit">회원 가입</button>
+  </form>
+</div>
+</body>
+</html>
+
+<style>
+  .error-class {
+    color: red;
+  }
+  .error-input {
+    border-color: red;
+  }
+</style>
